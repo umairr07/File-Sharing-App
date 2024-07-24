@@ -65,6 +65,13 @@ const uploadFile = async (req, res) => {
 const genrateLink = async (req, res) => {
     try {
         const sharableLink = `/files/download/${req.params.fileId}`
+        const fileData = await FileModel.findById(req.params.fileId)
+        if (!fileData) {
+            res.status(400).json({
+                success: false,
+                message: "File doesn't exist"
+            })
+        }
         res.json({
             success: true,
             message: "Link working properly",
@@ -83,6 +90,9 @@ const downloadaleLink = async (req, res) => {
     // console.log(fileId)
     const fileData = await FileModel.findById(fileId)
     // console.log(fileData)
+    if (!fileData) {
+        res.end("Invalid URL")
+    }
     const pathFile = `Uploads/${fileData.newName}`
     res.download(pathFile, fileData.originalName)
 }
