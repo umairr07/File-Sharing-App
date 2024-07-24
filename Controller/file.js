@@ -57,6 +57,7 @@ const uploadFile = async (req, res) => {
             success: true,
             message: "File uplaoded Successfully",
             fileId: addedFileInDb._id, //it will use in another api
+            fileData: fileData
         })
     })
 }
@@ -86,47 +87,47 @@ const downloadaleLink = async (req, res) => {
     res.download(pathFile, fileData.originalName)
 }
 
-const sendEmail = async (req, res) => {
-    const body = req.body;
-    const fileId = req.body.fileId;
-    console.log(fileId)
-    const sharableLink = `${process.env.BASE_URL}/files/download/${fileId}`
+// const sendEmail = async (req, res) => {
+//     const body = req.body;
+//     const fileId = req.body.fileId;
+//     console.log(fileId)
+//     const sharableLink = `${process.env.BASE_URL}/files/download/${fileId}`
 
-    const emailData = {
-        to: req.body.email,
-        from: "do-not-reply@filesharing.com",
-        subject: "Mail is sent to you",
-        html: `
-            <p> An email has been sent to you please click the link to download <a href="${sharableLink}">Click here<a/>
-            </p>
-        `
-    }
+//     const emailData = {
+//         to: req.body.email,
+//         from: "do-not-reply@filesharing.com",
+//         subject: "Mail is sent to you",
+//         html: `
+//             <p> An email has been sent to you please click the link to download <a href="${sharableLink}">Click here<a/>
+//             </p>
+//         `
+//     }
 
 
-    transporter.sendMail(emailData, (error, info) => {
-        if (error) {
-            console.log(error)
-            return res.json({
-                success: false,
-                message: "Unable to send email",
-                error: error
-            })
-        }
-        console.log(info)
-        res.json({
-            success: true,
-            message: "Send emial API",
-            body: body
-        })
-    });
+//     transporter.sendMail(emailData, (error, info) => {
+//         if (error) {
+//             console.log(error)
+//             return res.json({
+//                 success: false,
+//                 message: "Unable to send email",
+//                 error: error
+//             })
+//         }
+//         console.log(info)
+//         res.json({
+//             success: true,
+//             message: "Send emial API",
+//             body: body
+//         })
+//     });
 
-}
+// }
 
 const fileController = {
     uploadFile,
     genrateLink,
     downloadaleLink,
-    sendEmail
+    // sendEmail
 }
 
 
